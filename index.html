@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<div class="container">
+    <div class="instructions">
+	Open your <strong>DEV CONSOLE</strong> with <strong>OPTION + COMMAND + J.</strong>
+        <p><a href="https://github.com/stephenlb/spoken">View Github Repository</a>.</p>
+    </div>
+
+
+    <h1>Say (Text-to-Speech)</h1>
+    <p>Speak synthetically using this simple SDK.</p>
+    <div class="codebox">
+        <textarea>spoken.say( 'Welcome to flavor town.', 'Daniel' )</textarea>
+        <button>Say</button>
+    </div>
+
+
+    <h1>Get list of Voices</h1>
+    <p>Open your <strong>DEV CONSOLE</strong>. Voices load asynchronously from the OS.</p>
+    <div class="codebox">
+        <textarea>console.log(await spoken.voices())</textarea>
+        <button>Voices</button>
+    </div>
+
+
+    <h1>Listen (Speech-to-Text)</h1>
+    <p>Get voice commands and transcribe your voice to text.</p>
+    <div class="codebox">
+        <textarea>let transcript = await spoken.listen()
+console.log("Text: " + transcript)
+</textarea>
+        <button>Listen</button>
+    </div>
+
+
+    <h1>Prompt User Voice Command Example</h1>
+    <p>You want to ask the user for information and record their response.</p>
+    <div class="codebox">
+        <textarea>spoken.say('What is your favorite ice cream?').then( e =&gt; {
+    spoken.listen().then(
+        transcript =&gt; alert("Answer: " + transcript)
+    ).catch( e =&gt; console.warn(e.message) )
+} )</textarea>
+        <button>Run</button>
+    </div>
+
+
+    <h1>Capture Partial Transcripts</h1>
+    <p>Capture live "real-time" transcription as you speak.</p>
+    <div class="codebox">
+        <textarea>spoken.listen.on.partial( ts =&gt; console.log(ts) )
+spoken.listen()
+    .then( ts =&gt; console.log("Partial: " + ts) )
+    .catch( e =&gt; console.warn(e.message) )
+</textarea>
+        <button>Run</button>
+    </div>
+
+</div>
+
+<script nomodule src="./spoken.js"></script>
+<script type="module">
+import spoken from './build/spoken.js';
+( async e => {
+'use strict';
+
+// Setup Listener Events
+spoken.listen.on.partial( transcript => { console.log(transcript)          } );
+spoken.listen.on.start(   voice      => { console.log('Started Listening') } );
+spoken.listen.on.end(     voice      => { console.log('Ended Listening')   } );
+spoken.listen.on.error(   voice      => { console.log('Error Listening')   } );
+
+// Speak with each English voice to sample your favorites
+console.log(await spoken.voices());
+(await spoken.voices())
+    .filter(  voice => voice.lang.indexOf('en') == 0 )
+    .map(     voice => voice.name ).slice( 7, 8 )
+    .forEach( async voice => console.log(
+        (await spoken.say( 'Hi.', voice )).voice.name
+    ));
+
+})();</script>
+
+<script>(_=>{
+'use strict';
+document.querySelectorAll('.codebox').forEach( box => { 
+    box.querySelector('button').addEventListener( 'click', e => {
+        let code = box.querySelector('textarea').value;
+        eval('(async e=>{' + code + '})();');
+    } );
+} );
+})();</script>
+
+<style>
+div, body, html {
+    padding: 0;
+    margin: 0;
+}
+div, h1, body, html {
+    font-family: "San Francisco", "Helvetica Neue", "Helvetica", Arial, Sans-Serif;
+    font-weight: 400;
+}
+h1 {
+    flex: 1;
+}
+button {
+    flex: 1;
+    margin: 5px;
+    border-radius: 10px;
+    font-family: "San Francisco", "Helvetica Neue", "Helvetica", Arial, Sans-Serif;
+    font-weight: 400;
+    font-size: 23px;
+    height: 170px;
+}
+textarea {
+    flex: 10;
+    white-space: nowrap;
+    border: 0;
+    padding: 20px;
+    border-radius: 4px;
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 18px;
+    height: 170px;
+    background: #3f3f32;
+    color: #e1e2ee;
+}
+div.codebox {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    margin: auto;
+}
+div.container {
+    margin: 30px;
+}
+div.instructions {
+    background: #f1f1fe;
+    padding: 30px;
+}
+</style>
