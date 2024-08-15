@@ -1,0 +1,36 @@
+{
+  "name": "spoken",
+  "version": "1.1.17",
+  "license": "MIT",
+  "author": "Stephen Blum",
+  "description": "JavaScript Web API for Text-to-Speech and Speech-to-Text.",
+  "homepage": "http://stephenlb.github.io/spoken#readme",
+  "main": "spoken.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stephenlb/spoken.git"
+  },
+  "keywords": [
+    "voice",
+    "speech",
+    "javascript",
+    "chrome",
+    "google-chrome",
+    "text-to-speech",
+    "speech-to-text",
+    "robot-voice",
+    "speech-detection",
+    "ai-voice",
+    "artificial-voice",
+    "artificial-speech",
+    "voice-detection"
+  ],
+  "bugs": { "url": "https://github.com/stephenlb/spoken/issues" },
+  "devDependencies": {
+    "gulp": "4.0.0",
+    "gulp-wrapper": "1.0.0",
+    "gulp-babel": "8.0.0",
+    "@babel/core": "7.0.1",
+    "@babel/preset-env": "7.0.0"
+  }
+}
